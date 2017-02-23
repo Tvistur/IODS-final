@@ -15,3 +15,58 @@ output:
     toc_depth: 2
     code_folding: hide
 ---
+
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(include= TRUE, echo = FALSE,
+  tidy = FALSE,
+  size = "small",
+  out.width = "70%",
+  fig.align = "center",
+  fig.width = 6,
+  fig.asp = 0.618,
+  fig.show = "hold",
+  fig.path = "../figures/document/",
+  cache.path = "../cache/document/",
+  cache = TRUE,
+  par = TRUE,
+  collapse = TRUE,
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+
+options(digits = 3)
+options(table_counter = TRUE)
+```
+
+
+```{r library calls}
+
+```
+
+
+```{r import data}
+
+```
+
+
+# Introduction
+
+```{r}
+
+```
+
+# Materials and method
+
+# Results
+
+# Discussion
+
+# Conclusion
+
+# Bibliography
+
+
+
+
