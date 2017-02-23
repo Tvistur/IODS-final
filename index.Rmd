@@ -1,0 +1,17 @@
+---
+title: "Intensifying Adverbs in Historical Spoken English"
+author: 
+ - Susan Huotari
+ - susan.huotari@helsinki.fi
+date: "dd.mm.yyyy"
+bibliography: refs.bib
+abstract: Lorem ipsum... 
+output:
+  html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: spacelab
+    toc: true
+    toc_depth: 2
+    code_folding: hide
+---
