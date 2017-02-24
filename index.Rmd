@@ -1,5 +1,5 @@
 ---
-title: "Intensifying Adverbs in Historical Spoken English"
+title: " Use of Adverbs in Historical Spoken English"
 author: 
  - Susan Huotari
  - susan.huotari@helsinki.fi
@@ -18,21 +18,20 @@ output:
     toc_depth: 2
     code_folding: hide
 ---
-```{r setup, include=FALSE, echo=FALSE}
-knitr::opts_chunk$set(include= TRUE, echo = FALSE,
-  tidy = FALSE,     # display code as written
-  size = "small",   # slightly smaller font for code
+```{r setup}
+knitr::opts_chunk$set(
+  tidy = FALSE,
+  size = "small",
   out.width = "70%",
   fig.align = "center",
   fig.width = 6,
-  fig.asp = 0.618,  # 1 / phi,
+  fig.asp = 0.618,
   fig.show = "hold", 
   fig.path = "../figures/document/",
   cache.path = "../cache/document/",
-  cache = TRUE,  # set to true for cache
+  cache = TRUE,
   par = TRUE,
   collapse = TRUE,
-  echo = FALSE,
   message = FALSE,
   warning = FALSE
 )
@@ -40,6 +39,7 @@ knitr::opts_chunk$set(include= TRUE, echo = FALSE,
 options(digits = 3)
 options(table_counter = TRUE)
 ```
+
 
 ```{r library calls}
 library(dplyr)
@@ -54,19 +54,154 @@ library(broom)
 library(pander)
 library(gridExtra)
 library(GGally)
-library(FactoMineR)
 library(effects)
 library(knitcitations)
+library(stats)
 ```
 
 # Introduction
 
-# Materials (overview of data)
+Contemporary studies [@mac02] of spoken English have found strong evidence of a correlation between the use of adverbs and the speaker's social class where middle-class speakers use derived adverbs (i.e. ending in *-ly*) more than twice as frequently as working-class speakers. Macaulay concludes that this prominent difference is a reflection of different attitudes in these two social classes.  
+  
+Furthermore, the function of intensifying adverbs is to increase the intensity of teh word they modify. Although they do not add to the meaning of the clause, they give additional emotional context to the modified word, thus expressing the speaker's attitude.  
+  
+The aim of this study is to find out how adverbs in adverb + adjective pairs were used in the historical setting. First, I will investigate whether a disctinction between the use of intensifying adverbs and social class can be identified in eighteenth courtroom discourse. After this, I will broaden the scope and fit a logistic regression model in order to find what kind of relationship there exist (if any) between the type of adverb used and the other variables.  
+  
+Given that the data deals with eighteenth-century English data, and that this was an era when social rank mattered a great deal (not least in terms of education), my hypothesis is that there is an even stronger correlation between the use of adverbs and social class than there is today. However, I do not believe that this distinction was a constant one which might undermine the explanatory power of a single logistic regression model.
+  
+  
+# Materials 
+
+## The *Old Bailey Corpus*
+
+The data for this study was originally collected from the *Old Bailey Corpus* [@obc] (OBC). It is based on the *Proceedings of the Old Bailey* - a collection of accounts of criminal trials held at the Old Bailey, London's central criminal court. OBC consists of a selection of speech events derived from the *Proceedings* covering nearly 200 years - from 1720 to 1913 - and contains some 14 million spoken words.
+  
+The corpus has been part-of-speech tagged using the CLAWS7 tag set. Each speech event has been further annotated, as far as it is possible to do so, for the following information:  
+  
+* sociobiographic speaker information (gender, age, occupation, social class)
+* pragmatic information (speaker's role, i.e. defendant, judge, victim, witness etc.)
+* textual information (scribe, printer, publisher)  
+  
+Regardless of the abundance of material, the *Proceedings* are not complete accounts of what went of and what was said in the courtroom [@lang05]. They were subject to omissions, paraphrasis and even human error. But historical (un)reliability does not automatically indicate linguistic (un)reliability [@hub07]. According to Huber, although there are issues concerning balance and interference, the speech event represented in the *Old Bailey Corpus* are as close as we can get to the spoken word of the period.
+  
+  
+## Collecting the data
+
+The collection of data began by searching for adverb + adjective pairs between 1720 and 1819 in the OBC, and the results were then copied into Excel where they were refined and categorized. In the first phase false hits were identified and excluded from data set. False hits include cases where the adjectives were marked correctly as such but they were part of a street name, for example 'Red [Lion-street]' - additional information found to the right of the adjective is given in square brackets. Then varying spelling conventions (e.g.extremely / extreamly) were accounted for and standarized to their modern spelling forms. In the second phase speakers the results were categorized. Speakers were marked according to their social class (higher vs lower) based on recommendations of the corpus compilers, and adverbs were categorized according to the type of adverb in question (derived vs simple) and whether its function was to intensify the following adjective or not.
+
+I am aware that R offers a variety of text mining options but, as far as I know, the procedures described above cannot be done other than manually. For example, spelling variation is especially tricky, because one might encounter just about anything and in difficult cases only the context can help to infer what the intended word actually is. Also, not al -ly ending adverbs are derived, e.g. holy, and deciding whether the adverb is being used as an intensifier is best left to the philologist.
+  
+  
+## Wrangling in R
+
+Once the data set had been put together, I continued to modify it in R. In the beginning it consisted of 23 variables and a total of 7,828 observations. Many of the variables were metadata from the corpus that were not relevant for my study (e.g. scribe, printer and publisher), or had become redundant after the data had been categorized (e.g. the original query item and its context information). The original data set also included variables such as age and age group which contained very few values (over 7,000 NA's in both). I chose not to include these variables at all, because had I done so and then removed NA's, I would have thrown the baby out with the bath water, as it were. Thus, only eight variables were chosen for the final data set (described below in section 2.4). 
+  
+So, working with the eight variables, I removed NA's from the data set which left me with 6,543 observations. After this I modified the variable names and value labels to make them more uniform and easier to work with, and saved the data set into a new file in the data folder. Here is the link to my [wrangling script](https://github.com/Tvistur/IODS-final/blob/master/data/create_adverbs.R).
+  
+  
+## Overview of the data
+
+
+```{r import data}
+adverbs <- read.csv("data/OBCadverbs.csv", sep = ",", header = TRUE, na.strings = c("", "NA"))
+```
+
+
+```{r structure, echo = FALSE}
+str(adverbs)
+```
+
+Variable |  Description
+---| ----------------------------------------------------------------------------
+adverb_type | Type of adverb (derived / simple)
+intensifier | Adverb functioning as an intensifier (yes / no)
+class | Social class of speaker (higher / lower)
+gender | Gender of speaker (female / male)
+role | Speaker's role in the courtroom (defendant / interpreter / judge / lawyer / victim / witness / person)
+year | Year of trial
+adverb | Actual adverb used in the adverb + adjective pair (*)
+adjective | Actual adjective used in the adverb + adjective pair (*)
+
+(*) not to be used in logistic regression - SET ASIDE!!!!!
+
+```{r}
+adv <- ggplot(adverbs, aes(x = adverb_type)) +
+  geom_bar(position = "dodge", color = "black", fill = "skyblue") +
+  labs(x = "Type of adverb", y = "Frequency")
+
+int <- ggplot(adverbs, aes(x = intensifier)) +
+  geom_bar(position = "dodge", color = "black", fill = "skyblue") +
+  labs(x = "Intensifier", y = "Frequency")
+
+class <- ggplot(adverbs, aes(x = class)) +
+  geom_bar(position = "dodge", color = "black", fill = "skyblue") +
+  labs(x = "Social class", y = "Frequency")
+
+role <- ggplot(adverbs, aes(x = role)) +
+  geom_bar(position = "dodge", color = "black", fill = "skyblue") +
+  labs(x = "Role in courtroom", y = "Frequency")
+
+gender <- ggplot(adverbs, aes(x = gender)) +
+  geom_bar(position = "dodge", color = "black", fill = "skyblue") +
+  labs(x = "Gender", y = "Frequency")
+
+year <- ggplot(adverbs, aes(x = year)) +
+  geom_histogram(color = "black", fill = "skyblue", binwidth = 10) +
+  labs(x = "Year", y = "Frequency")
+
+
+grid.arrange(adv, int, class, role, gender, year, ncol = 3, top = "ADD SOME FANCY TITLE HERE")
+```
+
+
 
 # Method
 
+LOREM IPSUM...
+
 # Results
 
+## Correlations
+chi-square test
+
+LOREM IPSUM...
+
+## Logistic regression model
+
+### Logistic regression (NOT part1 and part2)
+```{r logistic regression model}
+model <- glm(adverb_type ~ intensifier + gender + year + class, data = adverbs, family = "binomial")
+summary(model)
+```
+
+Odds ratio
+```{r, echo=FALSE}
+OR <- coef(model) %>% exp
+CI <- confint(model) %>% exp
+cbind(OR, CI)
+```
+
+Prediction
+```{r echo=FALSE}
+probabilities <- predict(model, type = "response")
+
+adverbs_new <- mutate(adverbs, probability = probabilities)
+
+adverbs_new <-  mutate(adverbs_new, prediction = probability > 0.001)
+
+table(adverb = adverbs_new$adverb_type, prediction = adverbs_new$prediction) %>% prop.table()
+```
+SOMETHING WRONG WITH PREDICTION????
+
+
+```{r}
+plot(allEffects(model))
+```
+
+
 # Conclusion and discussion
+
+LOREM IPSUM...
+
 
 # References
