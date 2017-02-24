@@ -5,7 +5,10 @@ author:
  - susan.huotari@helsinki.fi
 date: "dd.mm.yyyy"
 bibliography: refs.bib
-abstract: Lorem ipsum... 
+abstract: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enimad minim veniam, quis
+  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+  aute i.  
 output:
   html_document:
     highlight: pygments
@@ -15,20 +18,18 @@ output:
     toc_depth: 2
     code_folding: hide
 ---
-
-
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(include= TRUE, echo = FALSE,
-  tidy = FALSE,
-  size = "small",
+  tidy = FALSE,     # display code as written
+  size = "small",   # slightly smaller font for code
   out.width = "70%",
   fig.align = "center",
   fig.width = 6,
-  fig.asp = 0.618,
-  fig.show = "hold",
+  fig.asp = 0.618,  # 1 / phi,
+  fig.show = "hold", 
   fig.path = "../figures/document/",
   cache.path = "../cache/document/",
-  cache = TRUE,
+  cache = TRUE,  # set to true for cache
   par = TRUE,
   collapse = TRUE,
   echo = FALSE,
@@ -40,33 +41,32 @@ options(digits = 3)
 options(table_counter = TRUE)
 ```
 
-
 ```{r library calls}
-
+library(dplyr)
+library(plyr)
+library(lme4)
+library(vcd)
+library(tidyverse)
+library(readr)
+library(scales)
+library(rms)
+library(broom)
+library(pander)
+library(gridExtra)
+library(GGally)
+library(FactoMineR)
+library(effects)
+library(knitcitations)
 ```
-
-
-```{r import data}
-
-```
-
 
 # Introduction
 
-```{r}
+# Materials (overview of data)
 
-```
-
-# Materials and method
+# Method
 
 # Results
 
-# Discussion
+# Conclusion and discussion
 
-# Conclusion
-
-# Bibliography
-
-
-
-
+# References
