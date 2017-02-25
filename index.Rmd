@@ -57,17 +57,19 @@ library(GGally)
 library(effects)
 library(knitcitations)
 library(stats)
+library(htmlTable)
+library(MASS)
 ```
 
 # Introduction
 
-Contemporary studies [@mac02] of spoken English have found strong evidence of a correlation between the use of adverbs and the speaker's social class where middle-class speakers use derived adverbs (i.e. ending in *-ly*) more than twice as frequently as working-class speakers. Macaulay concludes that this prominent difference is a reflection of different attitudes in these two social classes.  
+Contemporary studies [@mac02] of spoken English have found a difference in the use of adverbs and the speaker's social class with middle-class speakers using derived adverbs (i.e. ending in *-ly*) more than twice as frequently as working-class speakers. Macaulay concludes that this prominent difference is a reflection of different attitudes in these two social classes.  
   
 Furthermore, the function of intensifying adverbs is to increase the intensity of teh word they modify. Although they do not add to the meaning of the clause, they give additional emotional context to the modified word, thus expressing the speaker's attitude.  
   
-The aim of this study is to find out how adverbs in adverb + adjective pairs were used in the historical setting. First, I will investigate whether a disctinction between the use of intensifying adverbs and social class can be identified in eighteenth courtroom discourse. After this, I will broaden the scope and fit a logistic regression model in order to find what kind of relationship there exist (if any) between the type of adverb used and the other variables.  
+The aim of this study is to find out how adverbs in adverb + adjective pairs were used in the historical setting. First, I will investigate whether a disctinction between the use of intensifying adverbs and social class can be identified in 18th-centuryy courtroom discourse. After this, I will broaden the scope and fit a logistic regression model in order to find what kind of relationship there exist (if any) between the type of adverb used and the other variables.  
   
-Given that the data deals with eighteenth-century English data, and that this was an era when social rank mattered a great deal (not least in terms of education), my hypothesis is that there is an even stronger correlation between the use of adverbs and social class than there is today. However, I do not believe that this distinction was a constant one which might undermine the explanatory power of a single logistic regression model.
+Given that the data deals with 18th-century English data, and that this was an era when social rank mattered a great deal (not least in terms of education), my hypothesis is that there is an even stronger correlation between the use of adverbs and social class than there is today. However, I do not believe that this distinction was a constant one which might undermine the explanatory power of a single logistic regression model.
   
   
 # Materials 
@@ -99,76 +101,149 @@ Once the data set had been put together, I continued to modify it in R. In the b
 So, working with the eight variables, I removed NA's from the data set which left me with 6,543 observations. After this I modified the variable names and value labels to make them more uniform and easier to work with, and saved the data set into a new file in the data folder. Here is the link to my [wrangling script](https://github.com/Tvistur/IODS-final/blob/master/data/create_adverbs.R).
   
   
-## Overview of the data
-
+## Introducing the variables
 
 ```{r import data}
 adverbs <- read.csv("data/OBCadverbs.csv", sep = ",", header = TRUE, na.strings = c("", "NA"))
 ```
 
+So, the data set consists of eight variables and 6,543 observations. The following two figures below introduces six variables with their distributions and an explanation of each of them is given after the figure. The two other variables are the actual adverbs and adjectives (i.e. words) that have been categorized - they are included at this stage as to provide examples but will not be used in the analysis to come.
 
-```{r structure, echo = FALSE}
-str(adverbs)
-```
-
-Variable |  Description
----| ----------------------------------------------------------------------------
-adverb_type | Type of adverb (derived / simple)
-intensifier | Adverb functioning as an intensifier (yes / no)
-class | Social class of speaker (higher / lower)
-gender | Gender of speaker (female / male)
-role | Speaker's role in the courtroom (defendant / interpreter / judge / lawyer / victim / witness / person)
-year | Year of trial
-adverb | Actual adverb used in the adverb + adjective pair (*)
-adjective | Actual adjective used in the adverb + adjective pair (*)
-
-(*) not to be used in logistic regression - SET ASIDE!!!!!
-
-```{r}
+```{r A to C}
 adv <- ggplot(adverbs, aes(x = adverb_type)) +
   geom_bar(position = "dodge", color = "black", fill = "skyblue") +
-  labs(x = "Type of adverb", y = "Frequency")
+  labs(x = "A. Type of adverb", y = "Frequency")
 
 int <- ggplot(adverbs, aes(x = intensifier)) +
   geom_bar(position = "dodge", color = "black", fill = "skyblue") +
-  labs(x = "Intensifier", y = "Frequency")
+  labs(x = "B. Intensifier", y = "Frequency")
 
 class <- ggplot(adverbs, aes(x = class)) +
   geom_bar(position = "dodge", color = "black", fill = "skyblue") +
-  labs(x = "Social class", y = "Frequency")
+  labs(x = "C. Social class", y = "Frequency")
 
+grid.arrange(adv, int, class, ncol = 3, top = "Figure 1: Distributions of variables A-C")
+```
+
+
+```{r most frequent types of adverbs}
+derived <- adverbs %>% filter(adverb_type == "derived")
+simple <- adverbs %>% filter(adverb_type == "simple")
+
+# top 5 derived adverbs
+sort(table(derived$adverb), decreasing = TRUE)[1:5]
+# top 5 simple adverbs
+sort(table(simple$adverb), decreasing = TRUE)[1:5]
+```
+
+A. Type of adverb:
+This variable indicates whether the adverb used in the adverb + adjective pair is derived (usually -*ly* ending) or simple. The five most frequently encountered derived adverbs are: *perfectly*, *extremely*, *entirely*, *nearly* and *equally*, and five most frequently encountered simple adverbs are: *very*, *so*, *as*, *quite* and *how*. The vast majority of adverbs in this data are simple. Simple adverbs are by far more commonly used than derived adverbs.
+  
+B. Intensifier:  
+This variable indicated whether the adverb used in teh adverb + adjective pair functions as an intesifyer, i.e. indicates degrees on a scale. They include adverbs such as *very* [good], *so* [bad] and *extremely* [interesting]. Intensifiers are roughly twice as frequent as non-intensifiers. This is perhaps not so surprising, because we are dealing with the 18th-century courtroom where a central concern was to establish the character of the defendant and intensifiers are a neat way of describing the extent of his or her characteristics.
+  
+C. Social class:  
+Speakers have been divided into two social classes, higher and lower, as explained in section 2.2. The fact that the majority of speakers come from the higher class is somewhat surprising. Judges and lawyers naturally belong to the this group but that does not explain the difference between the classes. One explanation could be the types of offences included in this data. Offences deals with at the Old Bailey varied from pocketpicking to royal offences. Although the former were more common and were more likely to involve members of the lower class, it could be that this data does not represent the typical distribution of offences. Offence category is not included in the OBC metadata so this matter will remain unknown in this study.
+  
+  
+```{r D to F}
 role <- ggplot(adverbs, aes(x = role)) +
   geom_bar(position = "dodge", color = "black", fill = "skyblue") +
-  labs(x = "Role in courtroom", y = "Frequency")
+  labs(x = "D. Role in courtroom", y = "Frequency")
 
 gender <- ggplot(adverbs, aes(x = gender)) +
   geom_bar(position = "dodge", color = "black", fill = "skyblue") +
-  labs(x = "Gender", y = "Frequency")
+  labs(x = "E. Gender", y = "Frequency")
 
 year <- ggplot(adverbs, aes(x = year)) +
-  geom_histogram(color = "black", fill = "skyblue", binwidth = 10) +
-  labs(x = "Year", y = "Frequency")
+  geom_density(color = "black", fill = "skyblue") +
+  labs(x = "F. Year", y = "Frequency")
 
-
-grid.arrange(adv, int, class, role, gender, year, ncol = 3, top = "ADD SOME FANCY TITLE HERE")
+grid.arrange(role, gender, year, ncol = 3, top = "Figure 2: Distributions of variables D-F")
 ```
 
+D. Role in courtroom:  
+The courtroom involves various roles and most of the interaction occurs between witnesses (wit) and lawyers (law). The latter increased their presence in the English courtroom during the 18th century, and before their arrival judges (jud) acted in a somewhat similar role. On the other hand, defendants (def) were for the most part left to defend theirselves (especially in murder trials in which they were actually not allowd defence counsel until the 1730s) and you would expect them to be very vocal, but due to various reasons that is not at all the case. The data set contains also some instances spoken by interpreters (int) and an unidentified person (per), most likely a member of the audience making a random, unauthorized, remark.
+  
+E. Gender:  
+This data set, as is the case with the *Proceedings* [@hub07], does not represent men and women equally, far from it. The 18th-century justice system was male dominated which can also be seen in the figure above. Women were most likely to appear in the courtroom as wictims or witnesses. Furthermore. the majority of defendants were men as well - not only because fewer crimes were committed by women, but because fewer women were brought to trial [@bea02].
+  
+```{r}
+summary(adverbs$year)
+```
+F. Year:  
+Finally, the year in which the trial was held. The data set covers 100 years - from 1720 to 1820, but the distribution is skewed to the left. The mean and median are equal at 1780. This is interesting because this is also the time when the *Proceedings* actually reached their greatest detail [@lang05].
+  
+Let us next put the roles together with gender and social class to confirm the previous interpretations. As we can see in the left-hand side of the figure below, court officials (judges, lawyers and interpreters) are completely male dominated and none othe these roles are present in the right-hand chart which represents roles held by women. Court officials also belong to the higher class, as do most of male witnesses whereas women represent more lower class speakers.
+```{r}
+men <- adverbs %>% filter(gender == "male")
+women <- adverbs%>% filter(gender == "female")
+
+role_class_m <- men %>%
+  ggplot(aes(x = role)) +
+  geom_bar(aes(fill = class), position = "dodge") +
+  labs(x = "Role", y = "Frequency") +
+  ggtitle("Men")
+
+role_class_f <- women %>%
+  ggplot(aes(x = role)) +
+  geom_bar(aes(fill = class), position = "dodge") +
+  labs(x = "Role", y = "Frequency") +
+  ggtitle("Women")
+
+grid.arrange(role_class_m, role_class_f, ncol = 2, top = "Figure 3: Distributions of role and class for men and women")
+```
+  
+Finally, let us take a look at how men and women differ in their use of adverbs. The results are somewhat similar: both men and women use both types of adverbs more often as intensifiers than not. But women use very little derived intensifiers, whereas men use them somewhat more often.
+```{r}
+adverb_int_m <- men %>%
+  ggplot(aes(x = adverb_type)) +
+  geom_bar(aes(fill = intensifier), position = "dodge") +
+  labs(x = "Type of adverb", y = "Frequency") +
+  ggtitle("Men")
+
+adverb_int_f <- women %>%
+  ggplot(aes(x = adverb_type)) +
+  geom_bar(aes(fill = intensifier), position = "dodge") +
+  labs(x = "Type of adverb", y = "Frequency") +
+  ggtitle("Women")
+
+grid.arrange(adverb_int_m, adverb_int_f, ncol = 2, top = "Figure 4: Distributions of types of adverbs and intensifiers for men and women")
+```
 
 
 # Method
 
-LOREM IPSUM...
+In this study I will try to predict the use of intensifying adverbs by fitting a logistic regression model to the data. I have chosen this method because it is appropriate for a binary target variable, i.e. the type of adverb is either 'derived' or 'simple', and it is able to capture the relationship between such a variable and other independent variables.
 
 # Results
 
-## Correlations
-chi-square test
+## Intensifying adverbs and social class
 
-LOREM IPSUM...
+```{r create subset for intensifiers}
+int_yes <- adverbs %>% filter(intensifier == "yes")
+```
 
-## Logistic regression model
+The first aim of this study was to identify the relationship between the different types of adverbs that are used as intensifiers and social class. The result can be seen below in the table for these variables. The table tells us what was already seen above, i.e. simple adverbs are strikingly more frequent than derived adverbs. However, the distribution of social classes is not even and so if we look at the classes separately, we see that higher class speaker use derived adverbs more frequently (9,.97%) than lower class speaker (4.14%).
 
-### Logistic regression (NOT part1 and part2)
+```{r, echo=FALSE}
+int_class <- table(int_yes$adverb_type, int_yes$class)
+  
+table(int_yes$adverb_type, int_yes$class) %>% 
+  prop.table(2) %>%
+  addmargins()
+```
+
+But is the difference significant? The chi-square test confirms that it is. The p-value is very close to zero and we can conclude that speakers of different social classes use intensifying advers differently.
+
+```{r, echo=FALSE}
+chisq.test(int_class)
+```
+
+However, there are other variables to consider as well. As we saw in section 2, these variables are not evenly distributed, and they differ in terms of adverb use. Let us next turn to logistic regression to find out what kind of a model they give us.
+  
+## Logistic regression model  (NOT part1 and part2)
+
 ```{r logistic regression model}
 model <- glm(adverb_type ~ intensifier + gender + year + class, data = adverbs, family = "binomial")
 summary(model)
