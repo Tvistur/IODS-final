@@ -8,6 +8,7 @@
 
 ## In this wranglig scrip I modify the data set further.
 
+library(dplyr)
 
 # IMPORT DATA
 adverbs <- read.csv("/Users/susanhuotari/Desktop/adverbs.csv", sep = ";", header = TRUE, na.strings = c("", "NA"))
@@ -20,53 +21,49 @@ str(adverbs)
 
 # SELECT ONLY INTENSIFIERS
 sort(levels(adverbs$intensifier))
-adverbs <- adverbs %>% filter(intensifier == "Intensifier") # 5,668 obs. left
+adverbs_new <- adverbs %>% filter(intensifier == "Intensifier") # 5,668 obs. left
 
 
 # SELECT VARIABLES TO KEEP
-library(dplyr)
 keep <- c("adverb_type", "part1", "part2", "Year", "Sex", "Class", "Role")
-adverbs <- dplyr::select(adverbs, one_of(keep))
+adverbs_new <- dplyr::select(adverbs_new, one_of(keep))
 
 
 # GET RID OF NA's
-complete.cases(adverbs)
-adverbs_new <- adverbs[complete.cases(adverbs), ]
+complete.cases(adverbs_new)
+adverbs_new <- adverbs_new[complete.cases(adverbs_new), ]
 
 str(adverbs_new) # 7 variables and 4,667 observations left
 
 
 # MODIFY COLUMN NAMES TO MAKE THEM EASIER TO WORK WITH
-colnames(adverbs)
-colnames(adverbs)[2] <- "adverb"
-colnames(adverbs)[3] <- "adjective"
-colnames(adverbs)[4] <- "year"
-colnames(adverbs)[5] <- "gender"
-colnames(adverbs)[6] <- "class"
-colnames(adverbs)[7] <- "role"
+colnames(adverbs_new)
+colnames(adverbs_new)[2] <- "adverb"
+colnames(adverbs_new)[3] <- "adjective"
+colnames(adverbs_new)[4] <- "year"
+colnames(adverbs_new)[5] <- "gender"
+colnames(adverbs_new)[6] <- "class"
+colnames(adverbs_new)[7] <- "role"
 
 # MODIFY VARIABLE VALUE LABELS TO MAKE THEM EASIER TO WORK WITH
 
 # variable: adverb_type
-sort(levels(adverbs$adverb_type))
-levels(adverbs$adverb_type) <- c("derived", "simple")
+sort(levels(adverbs_new$adverb_type))
+levels(adverbs_new$adverb_type) <- c("derived", "simple")
 
 # variable: gender
-sort(levels(adverbs$gender))
-levels(adverbs$gender) <- c("female", "male")
+sort(levels(adverbs_new$gender))
+levels(adverbs_new$gender) <- c("female", "male")
 
 # variable: class
-sort(levels(adverbs$class))
-levels(adverbs$class) <- c("higher", "lower")
+sort(levels(adverbs_new$class))
+levels(adverbs_new$class) <- c("higher", "lower")
 
 # variable: role
-sort(levels(adverbs$role))
-levels(adverbs$role) <- c("def", "int", "jud", "law", "per", "vic", "wit")
-
-# REORDER LEVELS IN ADVERB_TYPE
-adverbs$adverb_type <- factor(adverbs$adverb_type, levels = c("simple", "derived"))
+sort(levels(adverbs_new$role))
+levels(adverbs_new$role) <- c("def", "int", "jud", "law", "per", "vic", "wit")
 
 
 # SAVE IN DATA FOLDER
-write.csv(adverbs_new, file = "OBCadverbs.csv", row.names = F)
+write.csv(adverbs_new, file = "adverbs.csv", row.names = F)
 
