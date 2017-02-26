@@ -6,7 +6,7 @@
 
 ## The data was originally collected from the Old Bailey Corpus where adverb-adjective pairs were searched for. Then the results were copied into Excel where they were refined and categorized.
 
-## In this wranglig scrip I select a group of variables, filter out missing values from them, modify variable names and value labels as well as save the results into a new file for further analysis.
+## In this wranglig scrip I modify the data set further.
 
 
 # IMPORT DATA
@@ -18,36 +18,38 @@ summary(adverbs)
 # The data contains a lot of metadata that is not (or no longer) relevant for the forthcoming study. Also, NA's in both age' and 'age group' is over 7,000 and should I include them and then remove NA's from the data set, there would be very little data to work with - so I will not include these variables.
 
 
+# SELECT ONLY INTENSIFIERS
+sort(levels(adverbs$intensifier))
+adverbs_new <- adverbs %>% filter(intensifier == "Intensifier") # 5,668 obs. left
+
+
 # SELECT VARIABLES TO KEEP
-keep <- c("adverb_type", "intensifier", "part1", "part2", "Year", "Sex", "Class", "Role")
-adverbs_new <- select(adverbs, one_of(keep))
+library(dplyr)
+keep <- c("adverb_type", "part1", "part2", "Year", "Sex", "Class", "Role")
+adverbs_new <- select(adverbs_new, one_of(keep))
 
 
 # GET RID OF NA's
 complete.cases(adverbs_new)
 adverbs_new <- adverbs_new[complete.cases(adverbs_new), ]
 
-summary(adverbs_new) # 8 variables and 6,543 observations left
+summary(adverbs_new) # 7 variables and 4,667 observations left
 
 
 # MODIFY COLUMN NAMES TO MAKE THEM EASIER TO WORK WITH
 colnames(adverbs_new)
-colnames(adverbs_new)[3] <- "adverb"
-colnames(adverbs_new)[4] <- "adjective"
-colnames(adverbs_new)[5] <- "year"
-colnames(adverbs_new)[6] <- "gender"
-colnames(adverbs_new)[7] <- "class"
-colnames(adverbs_new)[8] <- "role"
+colnames(adverbs_new)[2] <- "adverb"
+colnames(adverbs_new)[3] <- "adjective"
+colnames(adverbs_new)[4] <- "year"
+colnames(adverbs_new)[5] <- "gender"
+colnames(adverbs_new)[6] <- "class"
+colnames(adverbs_new)[7] <- "role"
 
 # MODIFY VARIABLE VALUE LABELS TO MAKE THEM EASIER TO WORK WITH
 
 # variable: adverb_type
 sort(levels(adverbs_new$adverb_type))
 levels(adverbs_new$adverb_type) <- c("derived", "simple")
-
-# variable: intensifier
-sort(levels(adverbs_new$intensifier))
-levels(adverbs_new$intensifier) <- c("no", "yes")
 
 # variable: gender
 sort(levels(adverbs_new$gender))
