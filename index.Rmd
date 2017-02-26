@@ -3,7 +3,7 @@ title: " Use of Adverbs in Historical Spoken English"
 author: 
  - Susan Huotari
  - susan.huotari@helsinki.fi
-date: "dd.mm.yyyy"
+date: "23.2.2017"
 bibliography: refs.bib
 abstract: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
   tempor incididunt ut labore et dolore magna aliqua. Ut enimad minim veniam, quis
@@ -71,7 +71,7 @@ Furthermore, the function of intensifying adverbs is to increase the intensity o
   
 The aim of this study is to find out how intensifying adverbs in adverb + adjective pairs were used in the historical setting. First, I will investigate whether a disctinction between the use of intensifying adverbs and social class can be identified in 18th-centuryy courtroom discourse. After this, I will broaden the scope and fit a logistic regression model in order to predict the use of derived adverbs as intensifiers.  
   
-Given that the data deals with 18th-century English data, and that this was an era when social rank mattered a great deal (not least in terms of education), my hypothesis is that there is an even closer relationship between the use of adverbs and social class than there is today. However, I do not believe that this distinction was a constant one.
+Given that the data deals with 18th-century English data, and that this was an era when social rank mattered a great deal (not least in terms of education), my hypothesis is that a relationship between the use of adverbs and social class can be established. However, I do not believe that this distinction was a constant one. As for the logistic regression model, I have reservations for its applicability to historical data which tend to present issues concerning representativeness and reliability.
   
 # Materials 
 
@@ -295,28 +295,20 @@ cv$delta[1]
 
 # Discussion
 
-As the results have revealed, 
+As the previous two sections have revealed, the logistic regression model suffered from a relatively high level of prediction error and was thus not able perform as well as one might have hoped. I belive that the biggest challenges have to do with the representativeness of the data. There are always such issues but especially in the case of historical data. As was mentioned in the beginning, the data is based on the *Proceedings* which were not complete accounts and they were subject to scribal and other kinds of interference. Also, if something has been left out, it does not mean that it did not happen, but for the researcher it is inevitably lost and must be taken into account when analysing this kind of data. We must not either forget the severe skewness of the data which we saw in the case of gender and social class - there was very little data representing language spoken by higher class women.
+  
+One of the predictor variables in the model was the speaker's role in the courtroom. It could be argued that it is more a arbitrary variable since men and women from different social classes would have, at least to some extent, occupied different roles in the courtroom depending on the trial. So, in this way is a more circumstancial than a descriptive variable. However, I chose to included in the model because the context could have brough about code switching, e.g. lower class speakers making use of the speech habits of the more prestigious higher class speakers in an attempt to add weight to what they were saying.
 
-WHY IS THE MODEL SO BAD?
--historical data / representativeness (gender, class)
--time / linguistic change
--roles (somewhat arbitrary..)
+Finally, there is the issue of linguistic change which was, and still is, an ongoing process. Because time was included as a factor in the model, linguistic change could have reduced the model's performance.
+
 
 # Conclusion
 
-This study has shown that there was a statistically significant relationship between the use of intensifying adverbs and social class in 18th-century courtroom discourse. Although simple intensifying adverbs were by far more frequent than derived intensifying adverbs in both social classes, higher class speakers were more likely to use derived intensifiers than lower class speakers.
+This study was able confirm that there was a statistically significant relationship between the use of intensifying adverbs and social class in 18th-century courtroom discourse. Although simple intensifying adverbs were by far more frequent than derived intensifying adverbs in both social classes, higher class speakers were more likely to use derived intensifiers than lower class speakers.
 
-can be identified in 18th-centuryy courtroom discourse. After this, I will broaden the scope and fit a logistic regression model in order to predict the use of derived adverbs as intensifiers.  
-  
-Given that the data deals with 18th-century English data, and that this was an era when social rank mattered a great deal (not least in terms of education), my hypothesis is that there is an even closer relationship between the use of adverbs and social class than there is today. However, I do not believe that this distinction was a constant one.
+The second part of this study a logistic regression model was fitted to the data. It revealed that social class was not the best predictor for the use of intensifying derived adverbs. Instead, time and the speaker's role as a witness were the most significant predictors, and that gender (but only for males) and class (but only lower) were secondary to them.
 
-
-The results have shown that it is possible apply a logistic regression model to historical linguistic data
-
-- able to confirm that (in this 18th-century data) there was a significant relationship between the use of derived adverbs and social class
-- but logistic regression revealed that class was not the best predictor for the use of intensifying derived adverbs
-- instead, time and witness role were the most significant predictors (followed by gender/male and class/lower)
-- but time also tricky due to linguistic change
+Although it was shown that logistic regression can be applied to historical linguistic data, the performance of the model was not optimal. The problems arise most likely from the representativeness issues related to this type of data. For a more accurate model more data from other sources would be needed. Also, linguistic change needs to be accounted for. Nevertheless, as far as 18th-century spoken language is concerned, I belive this has been a promising beginning.
 
 
 # References
