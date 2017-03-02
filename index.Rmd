@@ -5,7 +5,7 @@ author:
  - susan.huotari@helsinki.fi
 date: "2.3.2017"
 bibliography: refs.bib
-abstract: This study discusses the use of intensifying advebs as recorded in the *Old Bailey Corpus* covering a time period from 1720 to 1820. The topic is approached from a statistical point of view by fitting a logistic regression model as well as applying a multiple correspondence analysis. In this study I argue that although there is a strong connection between the use of derived intensifiers and a higher social standing, social class alone is not enough and should not be used as the only predictor. Instead, other variables, such as time and gender, must be taken into consideration as well.
+abstract: This study discusses the use of intensifying adverbs as recorded in the *Old Bailey Corpus* covering a time period from 1720 to 1820. The topic is approached from a statistical point of view by fitting a logistic regression model as well as applying a multiple correspondence analysis. In this study I argue that although there is a strong connection between the use of derived intensifiers and a higher social standing, social class alone is not enough and should not be used as the only predictor. Instead, other variables, such as time and gender, must be taken into consideration as well.
 output:
   html_document:
     highlight: pygments
@@ -14,10 +14,6 @@ output:
     toc: true
     toc_depth: 3
     code_folding: hide
-includes:
-    in_header: latex/header.tex
-    before_body: latex/before_body.tex
-    after_body: latex/after_body.tex
 ---
 ```{r setup}
 knitr::opts_chunk$set(
@@ -73,7 +69,7 @@ Contemporary studies [@mac02] of spoken English have found a difference in the u
   
 In the most narrow sense, intensifiers can be defined as adverbs whose function is to express the degree of the gradable adjective which they modify, e.g. *very good*, or *extremely interesting*. Intensifiers can scale a given property up (amplifiers) or down (diminishers).
   
-The aim of this study is to find out how intensifying adverbs were used in historical spoken language. This will be done in three stages. First, following Macaulay's study, I will investigate whether a disctinction between the use of intensifying adverbs and social class can be identified in 18th-century courtroom discourse. After this, I will broaden the scope and fit a logistic regression model in order to predict the use of derived adverbs as intensifiers. Finally, I will furher evaluate the logiscti model and visualize the data by means of multiple correspondence analysis.
+The aim of this study is to find out how intensifying adverbs were used in historical spoken language. This will be done in three stages. First, following Macaulay's study, I will investigate whether a distinction between the use of intensifying adverbs and social class can be identified in 18th-century courtroom discourse. After this, I will broaden the scope and fit a logistic regression model in order to predict the use of derived adverbs as intensifiers. Finally, I will further evaluate the logistic model and visualize the data by means of multiple correspondence analysis.
   
 Given that the data deals with 18th-century English courtroom data, and that this was an era when social rank mattered a great deal (not least in terms of education), my hypothesis is that a relationship between the use of adverbs and social class can be established. However, I do not believe that this distinction was a constant one. 
   
@@ -143,10 +139,10 @@ A. Type of adverb:
 This variable indicates whether the intensifying adverb used in the adverb + adjective pair is derived (usually -*ly* ending) or simple. The five most frequent derived adverbs are: *perfectly*, *extremely*, *entirely*, *nearly* and *equally*, and five most frequent simple adverbs are: *very*, *so*, *as*, *quite* and *how*. Simple adverbs are by far more common than derived adverbs.
   
 B. Social class:  
-Speakers have been divided into two social classes, higher and lower, as explained in section 2.2. The fact that the majority of speakers come from the higher class is somewhat surprising. Judges and lawyers naturally belong to the this group but that does not explain the difference between the classes. One explanation could be the types of offences included in this data. Offences dealt with at the Old Bailey varied from pocketpicking to royal offences. Although the former were more common and were more likely to involve members of the lower class, it could be that this data does not represent the typical distribution of offences. The offence category is not included in the OBC metadata so this matter will remain unknown as far as this study is concerned.
+Speakers have been divided into two social classes, higher and lower, as explained in section 2.2. The fact that the majority of speakers come from the higher class is somewhat surprising. Judges and lawyers naturally belong to the this group but that does not explain the difference between the classes. One explanation could be the types of offences included in this data. Offences dealt with at the Old Bailey varied from pocket picking to royal offences. Although the former were more common and were more likely to involve members of the lower class, it could be that this data does not represent the typical distribution of offences. The offence category is not included in the OBC metadata so this matter will remain unknown as far as this study is concerned.
   
 C. Role in courtroom:  
-The courtroom involves various roles and most of the interaction occurs between witnesses (wit) and lawyers (law). The latter increased their presence in the English courtroom during the 18th century, and before their arrival judges (jud) acted in a somewhat similar role. On the other hand, defendants (def) were for the most part left to defend theirselves (especially in murder trials in which they were actually not allowd defence counsel until the 1730s) and you would expect them to be very vocal, but due to various reasons that is not at all the case. The data set contains also some instances spoken by interpreters (int) and an unidentified person (per), most likely a member of the audience making a random unauthorized remark.
+The courtroom involves various roles and most of the interaction occurs between witnesses (wit) and lawyers (law). The latter increased their presence in the English courtroom during the 18th century, and before their arrival judges (jud) acted in a somewhat similar role. On the other hand, defendants (def) were for the most part left to defend themselves (especially in murder trials in which they were actually not allowed defense counsel until the 1730s) and you would expect them to be very vocal, but due to various reasons that is not at all the case. The data set contains also some instances spoken by interpreters (int) and an unidentified person (per), most likely a member of the audience making a random unauthorized remark.
   
 ```{r D to F}
 gender <- ggplot(adverbs, aes(x = gender)) +
@@ -161,7 +157,7 @@ grid.arrange(gender, year, ncol = 2, top = "Distributions of variables D-E")
 ```
   
 D. Gender:  
-This data set, as is the case with the *Proceedings* [@hub07], does not represent men and women equally. The 18th-century justice system was male dominated which can also be seen in the figure above. Women were most likely to appear in the courtroom as wictims or witnesses. Furthermore. the majority of defendants were men as well - not only because fewer crimes were committed by women, but because fewer women were brought to trial [@bea02].
+This data set, as is the case with the *Proceedings* [@hub07], does not represent men and women equally. The 18th-century justice system was male dominated which can also be seen in the figure above. Women were most likely to appear in the courtroom as victims or witnesses. Furthermore. the majority of defendants were men as well - not only because fewer crimes were committed by women, but because fewer women were brought to trial [@bea02].
   
 ```{r}
 summary(adverbs$year)
@@ -169,7 +165,7 @@ summary(adverbs$year)
 E. Year:  
 Finally, the year in which the trial was held. The data set covers 100 years - from 1720 to 1820, but the distribution is skewed to the left, and both the mean and the median are equal at 1780. This is interesting because this is exactly the time period when the *Proceedings* reached their greatest detail [@lang05].
   
-Let us next put the roles together with gender and social class to confirm the previous interpretations. As we can see in the figure below, court officials (judges, lawyers and interpreters) are completely male dominated and none othe these roles are present in the right-hand chart which represents roles held by women. Court officials also belong to the higher class, as do most of male witnesses whereas women represent more lower class speakers.
+Let us next put the roles together with gender and social class to confirm the previous interpretations. As we can see in the figure below, court officials (judges, lawyers and interpreters) are completely male dominated and none of these roles are present in the right-hand chart which represents roles held by women. Court officials also belong to the higher class, as do most of male witnesses whereas women represent more lower class speakers.
   
 ```{r}
 # only men
@@ -222,7 +218,7 @@ table(adverbs$adverb_type, adverbs$class) %>% +
   prop.table(2)
 ```
 
-But is the difference significant? The chi-square test confirms that it is. The p-value is very close to zero (6e-11) and we can conclude that speakers of different social classes use intensifying advers differently.
+But is the difference significant? The chi-square test confirms that it is. The p-value is very close to zero (6e-11) and we can conclude that speakers of different social classes use intensifying adverbs differently.
 
 ```{r, echo=FALSE}
 # chi-square test
@@ -239,7 +235,7 @@ However, there are other variables to consider as well. As we saw in section 2, 
 adverbs$adverb_type <- factor(adverbs$adverb_type, levels = c("simple", "derived"))
 ```
 
-Next I will fit a logistic regression model. As the purpose of this study is to predict the use of intensifying adverbs, I will use the binary variable *adverb_type* as the target variable and set the remaining independent varibles (*gender*, *year*, *class* and *role*) as the explanatory variables. Below is a summary of the fitted model.
+Next I will fit a logistic regression model. As the purpose of this study is to predict the use of intensifying adverbs, I will use the binary variable *adverb_type* as the target variable and set the remaining independent variables (*gender*, *year*, *class* and *role*) as the explanatory variables. Below is a summary of the fitted model.
 
 ```{r logistic regression model 1, echo=FALSE}
 
@@ -250,7 +246,7 @@ model <- glm(adverb_type ~  gender + year + class + role, data = adverbs, family
 summary(model)
 ```
 
-The summary is interesting and to some extent surprising: social class is not the best predictor for the use of adverbs and has significance only in the case of lower class. Instead, the most significant complete variable is time (*year*, p = 2.0e-15) which confirms my initial hypothesis that the relationship between type of adverb used and social class (not to mention the other variables) was not a constant one. Role is also significant but only if the speaker is a witness (p = 2.0e-06) or a victim (p = 0.0061). Compared to the other roles, these two roles would have represented the two social classes more diversly. Gender is also significant as far as men a concerned (p = 0.0089). 
+The summary is interesting and to some extent surprising: social class is not the best predictor for the use of adverbs and has significance only in the case of lower class. Instead, the most significant complete variable is time (*year*, p = 2.0e-15) which confirms my initial hypothesis that the relationship between type of adverb used and social class (not to mention the other variables) was not a constant one. Role is also significant but only if the speaker is a witness (p = 2.0e-06) or a victim (p = 0.0061). Compared to the other roles, these two roles would have represented the two social classes more diversely. Gender is also significant as far as men a concerned (p = 0.0089). 
   
 Below are the odds ratios (OR) and confidence intervals (CI) of this model. All ORs and CIs are so close to zero that it is extremely difficult to decide what to make of them based on them. Instead, let us look at the effects of each predictor individually.
 
@@ -314,7 +310,7 @@ loss_func <- function(class, prob) {
 }
 ```
 
-Finally, in order to evaluate the model's performance, I have calculated the average prediction error and used it to performe a 10-fold cross-validation. The numerical result represents the average number of wrong predictions so the lower it is, the better. 
+Finally, in order to evaluate the model's performance, I have calculated the average prediction error and used it to performed a 10-fold cross-validation. The numerical result represents the average number of wrong predictions so the lower it is, the better. 
 
 ```{r cross validation}
 # 10-fold cross-validation
@@ -327,7 +323,7 @@ The result (0.0825) is actually pretty good, and certainly much better than I wo
 
 # Multiple Correspondence Analysis (MCA)
 
-Let us take a brief look of MCA. I have chosen to include this in order to confirm my findings as well as to provide a more visual represenation of the data as a whole. MCA is a technique which reduces dimensions and by doing so it enables us to identify connections withing the data.
+Let us take a brief look of MCA. I have chosen to include this in order to confirm my findings as well as to provide a more visual representation of the data as a whole. MCA is a technique which reduces dimensions and by doing so it enables us to identify connections withing the data.
   
 ```{r}
 # select columns for MCA (same ones as in glm)
@@ -363,15 +359,15 @@ Finally, we can visualize the model using the first two dimensions. The plot bel
 plot(mca, invisible=c("ind"), habillage = "quali", selectMod = "cos2 30")
 ```
 
-The summary above showed that the most influential variables in dimension 1 were role and class. Two roles in particular are highlighted, witness and victim, which were the most frequent ones in this data set. They are leaning towards the lower class. Lower class is associated with female speakers, and also the futhest away from derived intensifiers. Higher class is not as closely related to any particular role and is somewhere in the middle ground between the two types of intensifiers. Male speakers are very close to higher class.
+The summary above showed that the most influential variables in dimension 1 were role and class. Two roles in particular are highlighted, witness and victim, which were the most frequent ones in this data set. They are leaning towards the lower class. Lower class is associated with female speakers, and also the furthest away from derived intensifiers. Higher class is not as closely related to any particular role and is somewhere in the middle ground between the two types of intensifiers. Male speakers are very close to higher class.
   
-Time (year) is key in both dimensions. Time is not, however, cronologically distributed along the dimensions but it would appear that some difference between 1758 and 1795 has been captured. What is most of interest is the year 1815 which is set apart by the second dimension, along with extreme instances recorded in the 1780s.  
+Time (year) is key in both dimensions. Time is not, however, chronologically distributed along the dimensions but it would appear that some difference between 1758 and 1795 has been captured. What is most of interest is the year 1815 which is set apart by the second dimension, along with extreme instances recorded in the 1780s.  
   
 # Discussion
 
-Although the logistic model performed surprisingly well and the multiple correspondence analysis confirmed the key findings, both have to be taken with a pinch of salt - they cannot be claimed to be exhaustive representations of all linguistic behaviour in this data set. As was mentioned in the beginning, the data is based on the *Proceedings* which were not complete accounts and they were subject to scribal and other kinds of interference. Also, if something has been left out, it does not mean that it did not happen, but for the researcher it is inevitably lost and must be taken into account when analysing this kind of data. Neither should we forget the severe skewness of the data which we saw especially in the case of gender and social class - for example, there was very little data representing language spoken by higher class women. So, what the analysis has captured is the linguistic behaviour of *higher class males* given the records available to us from this one source.
+Although the logistic model performed surprisingly well and the multiple correspondence analysis confirmed the key findings, both have to be taken with a pinch of salt - they cannot be claimed to be exhaustive representations of all linguistic behavior in this data set. As was mentioned in the beginning, the data is based on the *Proceedings* which were not complete accounts and they were subject to scribal and other kinds of interference. Also, if something has been left out, it does not mean that it did not happen, but for the researcher it is inevitably lost and must be taken into account when analyzing this kind of data. Neither should we forget the severe skewness of the data which we saw especially in the case of gender and social class - for example, there was very little data representing language spoken by higher class women. So, what the analysis has captured is the linguistic behavior of *higher class males* given the records available to us from this one source.
   
-One of the predictor variables in the model was the speaker's role in the courtroom. It could be argued that it is more a arbitrary variable since men and women from different social classes would have, at least to some extent, occupied different roles in the courtroom depending on the trial. So, in this way it is a more circumstancial than a descriptive variable. However, I chose to include it in the model because the official nature of the context could have brough about code switching, e.g. lower class speakers making use of the speech habits of the more prestigious higher class speakers in an attempt to add weight to what they were saying. 
+One of the predictor variables in the model was the speaker's role in the courtroom. It could be argued that it is more a arbitrary variable since men and women from different social classes would have, at least to some extent, occupied different roles in the courtroom depending on the trial. So, in this way it is a more circumstantial than a descriptive variable. However, I chose to include it in the model because the official nature of the context could have brought about code switching, e.g. lower class speakers making use of the speech habits of the more prestigious higher class speakers in an attempt to add weight to what they were saying. 
 
 Finally, there is the issue of linguistic change which was, and still is, an ongoing process. Time turned out to be an influential predictor and although it did not produce a neat, linear explanation, it highlighted some interesting points in time which should be studied in more detail.
 
@@ -382,7 +378,7 @@ This study has investigated the use of intensifying adverbs in 18th-century cour
   
 A logistic regression model was also fitted to the data. It revealed that social class was perhaps not the best predictor for the use of intensifying derived adverbs. Instead, time and the speaker's role as a witness were the most significant predictors, and that gender and class were not far behind but yet secondary to them. These findings were further confirmed by a multiple correspondence analysis which revealed a close relationship between men and a higher social standing, which in turn was connected to the use of derived intensifiers. At the other extreme were women and a lower social status. 
   
-Due to data used and its representativeness issues, what the analysis conducted in this study has revealed is mainly the linguistic behaviour of higher class male speakers in one specific context. Thus, for a more versatile view more data from other sources would be needed. Linguistic change would also need to be accounted for. One way of approaching this issue would be to divide the data into time periods and compare them to each other.
+Due to data used and its representativeness issues, what the analysis conducted in this study has revealed is mainly the linguistic behavior of higher class male speakers in one specific context. Thus, for a more versatile view more data from other sources would be needed. Linguistic change would also need to be accounted for. One way of approaching this issue would be to divide the data into time periods and compare them to each other.
   
 Nevertheless, considering the scarcity of data available for 18th-century spoken language, I am confident that this has been a promising beginning.
 
