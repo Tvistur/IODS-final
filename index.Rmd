@@ -3,14 +3,14 @@ title: " Use of Intensifying Adverbs in Historical Spoken English"
 author: 
  - Susan Huotari
  - susan.huotari@helsinki.fi
-date: "2.3.2017"
+date: "3.3.2017"
 bibliography: refs.bib
 abstract: This study discusses the use of intensifying adverbs as recorded in the *Old Bailey Corpus* covering a time period from 1720 to 1820. The topic is approached from a statistical point of view by fitting a logistic regression model as well as applying a multiple correspondence analysis. In this study I argue that although there is a strong connection between the use of derived intensifiers and a higher social standing, social class alone is not enough and should not be used as the only predictor. Instead, other variables, such as time and gender, must be taken into consideration as well.
 output:
   html_document:
     highlight: pygments
     number_sections: yes
-    theme: spacelab
+    theme: cosmo
     toc: true
     toc_depth: 3
     code_folding: hide
@@ -87,16 +87,19 @@ The corpus has been part-of-speech tagged using the CLAWS7 tag set. Each speech 
   
 Regardless of the abundance of material, the *Proceedings* are not complete accounts of what went of and what was said in the courtroom [@lang05]. They were subject to omissions, paraphrasis and even human error. But historical (un)reliability does not automatically indicate linguistic (un)reliability [@hub07]. According to Huber, although there are issues concerning balance and interference, the speech event represented in the *Old Bailey Corpus* are as close as we can get to the spoken word of the period.
   
-  
+<a href = "#header"> back to top </a>
+
 ## Collecting the data (*a priori*)
 
 The data was collected prior to the current study. It was done by searching for adverb + adjective pairs between 1720 and 1819 in the OBC, and the results were then copied into Excel where they were refined and categorized. In the first phase false hits were identified and excluded from data set. False hits include cases where the adjectives were marked correctly as such but they were part of a street name, for example 'Red [Lion-street]' (information in square brackets added by me). Then varying spelling conventions (e.g.extremely / extreamly) were accounted for and standarized to their modern spelling forms. In the second phase the results were categorized. Speakers were marked according to their social class (higher vs lower) based on recommendations of the corpus compilers, and adverbs were categorized according to the type of adverb in question (derived vs simple) and whether its function was to intensify the following adjective or not.
   
+<a href = "#header"> back to top </a>
   
 ## Wrangling in R
 
 For the purposes of this current study, I began by modifying the data in R. In the beginning it consisted of 23 variables and a total of 7,828 observations. First, I filtered the data set so as to include only those observations where adverbs were functioned as intensifiers, which decreased the data set by some 2,000 observations. Many of the variables were metadata from the corpus that were not relevant for my study (e.g. scribe, printer and publisher), or had become redundant after the data had been categorized (e.g. the original query item and its context information). The original data set also included variables such as age and age group which contained very few values (over 7,000 NA's in both). I chose not to include these variables at all, because had I done so and then removed NA's, I would have thrown the baby out with the bath water, as it were. Thus, only eight variables were chosen for the final data set (described below in section 2.4). So, working with the eight variables, I removed NA's from the data set which left me with a total of 4,667 observations. After this I modified the variable names and value labels to make them more uniform and easier to work with, and saved the data set into a new file in the data folder. Here is the link to my [wrangling script](https://github.com/Tvistur/IODS-final/blob/master/data/create_adverbs.R).
-  
+    
+<a href = "#header"> back to top </a>
   
 ## Introducing the variables
 
@@ -196,12 +199,14 @@ ggplot(data = adverbs, aes(x = gender)) +
   scale_y_continuous(labels = percent) +
   labs(x = "Gender", y = "Percentage", title = "Distributions of intensifying adverbs for men and women (%)")
 ```
-
+  
+<a href = "#header"> back to top </a>
 
 # Method
 
 The main objective of this study is to predict the use of intensifying adverbs by fitting a logistic regression model to the data. I have chosen this method because it is appropriate for a binary target variable, i.e. the type of adverb is either 'derived' or 'simple', as well as because the explanatory variables are also mainly categorical. The complementary correspondence analysis is also well suited for this kind of data.
-
+  
+<a href = "#header"> back to top </a>
 
 # Results
 
@@ -227,7 +232,8 @@ chisq.test(t)
 
 However, there are other variables to consider as well. As we saw in section 2, these variables are not evenly distributed, and they differ in terms of adverb use.
   
-    
+<a href = "#header"> back to top </a>
+
 ## Logistic regression model
 
 ```{r levels}
@@ -271,6 +277,7 @@ plot(allEffects(model))
   
 From these plots we can conclude that derived intensifiers are more probable if the speaker is a male (the probability for women also involves more uncertainty) who belongs to the higher social class. Furthermore, the probability increases over time. All roles have an equal probability but 'interpreter' and 'person' especially involve a very high level of uncertainty which is logical as there were only a few observations for these roles.
 
+<a href = "#header"> back to top </a>
   
 ### Prediction
 
@@ -298,7 +305,7 @@ ggplot(adverbs, aes(x = probability, y = adverb_type, col = prediction)) +
   geom_point(aes(col = prediction)) +
   labs(x = "Probability", y = "Type of adverb", title = "Predictions for intensifying adverbs (probability > 0.05)")
 ```
-
+  
 
 ### Cross validation
 
@@ -319,9 +326,9 @@ cv$delta[1]
 ```
 
 The result (0.0825) is actually pretty good, and certainly much better than I would have expected.
+  
 
-
-# Multiple Correspondence Analysis (MCA)
+## Multiple Correspondence Analysis (MCA)
 
 Let us take a brief look of MCA. I have chosen to include this in order to confirm my findings as well as to provide a more visual representation of the data as a whole. MCA is a technique which reduces dimensions and by doing so it enables us to identify connections withing the data.
   
@@ -363,6 +370,8 @@ The summary above showed that the most influential variables in dimension 1 were
   
 Time (year) is key in both dimensions. Time is not, however, chronologically distributed along the dimensions but it would appear that some difference between 1758 and 1795 has been captured. What is most of interest is the year 1815 which is set apart by the second dimension, along with extreme instances recorded in the 1780s.  
   
+<a href = "#header"> back to top </a>
+
 # Discussion
 
 Although the logistic model performed surprisingly well and the multiple correspondence analysis confirmed the key findings, both have to be taken with a pinch of salt - they cannot be claimed to be exhaustive representations of all linguistic behavior in this data set. As was mentioned in the beginning, the data is based on the *Proceedings* which were not complete accounts and they were subject to scribal and other kinds of interference. Also, if something has been left out, it does not mean that it did not happen, but for the researcher it is inevitably lost and must be taken into account when analyzing this kind of data. Neither should we forget the severe skewness of the data which we saw especially in the case of gender and social class - for example, there was very little data representing language spoken by higher class women. So, what the analysis has captured is the linguistic behavior of *higher class males* given the records available to us from this one source.
@@ -370,7 +379,8 @@ Although the logistic model performed surprisingly well and the multiple corresp
 One of the predictor variables in the model was the speaker's role in the courtroom. It could be argued that it is more a arbitrary variable since men and women from different social classes would have, at least to some extent, occupied different roles in the courtroom depending on the trial. So, in this way it is a more circumstantial than a descriptive variable. However, I chose to include it in the model because the official nature of the context could have brought about code switching, e.g. lower class speakers making use of the speech habits of the more prestigious higher class speakers in an attempt to add weight to what they were saying. 
 
 Finally, there is the issue of linguistic change which was, and still is, an ongoing process. Time turned out to be an influential predictor and although it did not produce a neat, linear explanation, it highlighted some interesting points in time which should be studied in more detail.
-
+  
+<a href = "#header"> back to top </a>
 
 # Conclusion
 
@@ -382,5 +392,6 @@ Due to data used and its representativeness issues, what the analysis conducted 
   
 Nevertheless, considering the scarcity of data available for 18th-century spoken language, I am confident that this has been a promising beginning.
 
+<a href = "#header"> back to top </a>
 
 # References
