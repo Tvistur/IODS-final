@@ -85,7 +85,7 @@ The corpus has been part-of-speech tagged using the CLAWS7 tag set. Each speech 
 * pragmatic information (speaker's role, i.e. defendant, judge, victim, witness etc.)
 * textual information (scribe, printer, publisher)  
   
-Regardless of the abundance of material, the *Proceedings* are not complete accounts of what went of and what was said in the courtroom [@lang05]. They were subject to omissions, paraphrasis and even human error. But historical (un)reliability does not automatically indicate linguistic (un)reliability [@hub07]. According to Huber, although there are issues concerning balance and interference, the speech event represented in the *Old Bailey Corpus* are as close as we can get to the spoken word of the period.
+Regardless of the abundance of material, the *Proceedings* are not complete accounts of what went of and what was said in the courtroom [@lang05]. They were subject to omissions, paraphrasis and even human error. But historical (un)reliability does not automatically indicate linguistic (un)reliability [@hub07]. According to Huber, although there are issues concerning balance and interference, the speech events represented in the *Old Bailey Corpus* are as close as we can get to the spoken word of the period.
   
 <a href = "#header"> back to top </a>
 
@@ -252,7 +252,7 @@ model <- glm(adverb_type ~  gender + year + class + role, data = adverbs, family
 summary(model)
 ```
 
-The summary is interesting and to some extent surprising: social class is not the best predictor for the use of adverbs and has significance only in the case of lower class. Instead, the most significant complete variable is time (*year*, p = 2.0e-15) which confirms my initial hypothesis that the relationship between type of adverb used and social class (not to mention the other variables) was not a constant one. Role is also significant but only if the speaker is a witness (p = 2.0e-06) or a victim (p = 0.0061). Compared to the other roles, these two roles would have represented the two social classes more diversely. Gender is also significant as far as men a concerned (p = 0.0089). 
+The summary is interesting and to some extent surprising: social class is not the best predictor for the use of adverbs and has significance only in the case of lower class. Instead, the most significant complete variable is time (*year*, p = 2.0e-15) which confirms my initial hypothesis that the relationship between type of adverb used and social class (not to mention the other variables) was not a constant one. Role is also significant but only if the speaker is a witness (p = 2.0e-06) or a victim (p = 0.0061). Compared to the other roles, these two roles would have represented the two social classes more diversely. Gender is also significant as far as men are concerned (p = 0.0089). 
   
 Below are the odds ratios (OR) and confidence intervals (CI) of this model. All ORs and CIs are so close to zero that it is extremely difficult to decide what to make of them based on them. Instead, let us look at the effects of each predictor individually.
 
@@ -386,7 +386,7 @@ Finally, there is the issue of linguistic change which was, and still is, an ong
 
 This study has investigated the use of intensifying adverbs in 18th-century courtroom discourse. The analysis has confirmed that there was a statistically significant relationship between the use of intensifying adverbs and social class. Although simple intensifying adverbs were by far more frequent than derived intensifying adverbs in both social classes, higher class speakers were more likely to use derived intensifiers than lower class speakers.
   
-A logistic regression model was also fitted to the data. It revealed that social class was perhaps not the best predictor for the use of intensifying derived adverbs. Instead, time and the speaker's role as a witness were the most significant predictors, and that gender and class were not far behind but yet secondary to them. These findings were further confirmed by a multiple correspondence analysis which revealed a close relationship between men and a higher social standing, which in turn was connected to the use of derived intensifiers. At the other extreme were women and a lower social status. 
+A logistic regression model was also fitted to the data. It revealed that social class was perhaps not the best predictor for the use of intensifying derived adverbs. Instead, time and the speaker's role as a witness carried more weight - gender and class were not far behind but yet secondary to them. These findings were further confirmed by a multiple correspondence analysis which revealed a close relationship between male speakers and a higher social standing, which in turn was connected to the use of derived intensifiers. At the other extreme were women and a lower social status. 
   
 Due to data used and its representativeness issues, what the analysis conducted in this study has revealed is mainly the linguistic behavior of higher class male speakers in one specific context. Thus, for a more versatile view more data from other sources would be needed. Linguistic change would also need to be accounted for. One way of approaching this issue would be to divide the data into time periods and compare them to each other.
   
